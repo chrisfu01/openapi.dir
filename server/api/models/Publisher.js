@@ -19,6 +19,18 @@ const Publisher = sequelize.define('Publisher', {
   website: {
     type: Sequelize.STRING,
   },
+  createdAt: {
+    allowNull: true,
+    field: 'created_at',
+    type: Sequelize.DATE
+  },
+
+  updatedAt: {
+    allowNull: true,
+    field: 'updated_at',
+    type: Sequelize.DATE
+  },
+  
   created_by: {
     type: Sequelize.INTEGER,
     foreignKey: true,

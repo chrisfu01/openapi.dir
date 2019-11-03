@@ -1,14 +1,17 @@
 const multer = require('multer')
+var os = require('os');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-  cb(null, '/Users/chrisfu/openapi.portal/server/api/controllers')
-},
+    cb(null, os.tmpdir())
+    //cb(null, '/Users/chrisfu/openapi.portal/server/api/controllers')
+  },
 
-//chrisfu⁩/openapi.portal⁩/server⁩/api⁩/
-filename: function (req, file, cb) {
-  cb(null, file.originalname)
-}
+  //chrisfu⁩/openapi.portal⁩/server⁩/api⁩/
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now())
+    // cb(null, file.originalname)
+  }
 });
 
 const upload = multer({ storage: storage }).single("file");
@@ -19,23 +22,21 @@ const publicRoutes = {
   'POST /login': 'UserController.login',
   'POST /validate': 'UserController.validate',
   'GET /users': 'UserController.getAll',
+  'GET /specs/:page':  'SpecController.getAll',
+//  'GET /specs/:id':  'SpecController.getOne',
 
-  'GET /specs':  'SpecController.getAll',
-  'GET /specs/:id':  'SpecController.getOne',
+//  npm install redoc --sav
 
-//  npm install redoc --save
-
-
-  'POST /uppity': {
+  'POST /upload': {
     path: 'SpecController.register',
     middlewares: [
          upload
     ],
   },
-
-
   'GET /pub':  'PublisherController.getAll',
   'POST /company_register':  'PublisherController.register',
+  'GET /category': 'CategoryController.getAll',
+
 
 };
 

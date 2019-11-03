@@ -2,13 +2,16 @@ import axios from 'axios';
 
 const BASE = 'http://' + window.location.hostname + ':3000';
 
-const apiUrl = BASE + '/public/specs';
+const apiUrl = BASE + '/public/specs/';
 const apiUrlSingle = BASE + '/public/specs/';
 
 const pubUrl = BASE + '/public/pub';
 const registerPostUrl = BASE + '/public/company_register';
 const loginUrl = BASE + '/public/login';
-const uploadUrl = BASE + '/public/uppity';
+const uploadUrl = BASE + '/public/upload';
+
+const catUrl = BASE + '/public/category';
+
 
 export const LOGOUT = 'LOGOUT'
 export const LOGIN_REQUESTED = 'LOGIN_REQUESTED'
@@ -29,6 +32,10 @@ export const REGISTER_REQUEST_FAILURE = 'REGISTER_REQUEST_FAILURE'
 export const PUB_REQUESTED = 'PUB_REQUESTED'
 export const PUB_REQUEST_SUCCESS = 'PUB_REQUEST_SUCCESS'
 export const PUB_REQUEST_FAILURE = 'PUB_REQUEST_FAILURE'
+
+export const CAT_REQUESTED = 'CAT_REQUESTED'
+export const CAT_REQUEST_SUCCESS = 'CAT_REQUEST_SUCCESS'
+export const CAT_REQUEST_FAILURE = 'CAT_REQUEST_FAILURE'
 
 export const UPLOAD_REQUESTED = 'UPLOAD_REQUESTED'
 export const UPLOAD_REQUEST_SUCCESS = 'UPLOAD_REQUEST_SUCCESS'
@@ -94,6 +101,18 @@ export const PubsRequested = (data) => {
     }
 };
 
+export const CategoryRequestSuccess = (payload) => {
+    return {
+      type: CAT_REQUEST_SUCCESS,
+      payload
+    }
+};
+
+export const CategoryRequested = (data) => {
+    return {
+        type: CAT_REQUESTED,
+    }
+};
 
 export const UploadRequestSuccess = (payload) => {
     return {
@@ -113,7 +132,7 @@ export const loadOpenApis = (page) => {
     return (dispatch) => {
         dispatch(openapiRequested()); 
 
-        return axios.get(apiUrl)
+        return axios.get(apiUrl + page)
             .then(response => {
                 dispatch(openapiRequestSuccess(response.data))
             })
@@ -151,6 +170,20 @@ export const loadPubs = (page) => {
     };
 };
 
+export const loadCats = (page) => {
+    return (dispatch) => {
+        dispatch(CategoryRequested()); 
+
+        return axios.get(catUrl)
+            .then(response => {
+                dispatch(CategoryRequestSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};
+
 export function uploadAPI(apiInfo) {
     //alert(apiInfo.selectedFile[0]);
     //alert(apiInfo.loaded);
@@ -160,10 +193,11 @@ export function uploadAPI(apiInfo) {
 
         
         return axios.post(uploadUrl, apiInfo, {
-                        headers: {
-                          'Content-Type': 'multipart/form-data'
-                        }
-                      })
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Bearer ' +  localStorage.getItem("auth-token")        
+                }
+             })
             .then(response => {
                 dispatch(UploadRequestSuccess(response.data))
             })

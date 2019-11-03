@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../../config/database');
+const Spec = require('./Spec');
 
 const tableName = 'openapi_categories';
 
@@ -17,9 +18,8 @@ const Category = sequelize.define('Category', {
   
 }, {  tableName });
 
-Category.prototype.toJSON = function () {
-  const values = Object.assign({}, this.get());
-  return values;
-};
+
+
+
 
 module.exports = Category;

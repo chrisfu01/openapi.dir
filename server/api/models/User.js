@@ -33,6 +33,18 @@ const User = sequelize.define('User', {
   password_hash: {
     type: Sequelize.STRING(255),
   },
+  
+  createdAt: {
+    allowNull: true,
+    field: 'created_at',
+    type: Sequelize.DATE
+  },
+
+  updatedAt: {
+    allowNull: true,
+    field: 'updated_at',
+    type: Sequelize.DATE
+  }
 }, { hooks, tableName });
 
 // eslint-disable-next-line

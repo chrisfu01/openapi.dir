@@ -14,7 +14,7 @@ const Spec = sequelize.define('Spec', {
     autoIncrement: true,
   },
   name: {
-    type: Sequelize.STRING(32),
+    type: Sequelize.STRING(200),
   },
   description: {
     type: Sequelize.STRING(1024),
@@ -33,23 +33,27 @@ const Spec = sequelize.define('Spec', {
   },
   publisher_id: {
     type: Sequelize.INTEGER,
-    primaryKey: true,
-    references: {
-      model: Publisher,
-      key: 'id'
-    }
+   
   },
   category_id: {
     type: Sequelize.INTEGER,
-    primaryKey: true,
-    references: {
-      model: Category,
-      key: 'id'
-    }
+   
   },
   num_comments: {
     type: Sequelize.INTEGER,
   },
+  createdAt: {
+    allowNull: true,
+    field: 'created_at',
+    type: Sequelize.DATE
+  },
+
+  updatedAt: {
+    allowNull: true,
+    field: 'updated_at',
+    type: Sequelize.DATE
+  },
+
   created_by: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -68,12 +72,23 @@ const Spec = sequelize.define('Spec', {
   },
 }, { tableName });
 
+Spec.belongsTo(Category, {
+  as: 'category',
+  foreignKey: 'category_id'
+});
+
+Spec.belongsTo(Publisher, {
+  as: 'publisher',
+  foreignKey: 'publisher_id'
+});
+
 // eslint-disable-next-line
 Spec.prototype.toJSON = function () {
   const values = Object.assign({}, this.get());
 
   return values;
 };
+
 
 module.exports = Spec;
 

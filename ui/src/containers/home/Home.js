@@ -21,12 +21,22 @@ import Spotlights from '../spotlights/Spotlights';
 import TagCloud from '../tag-cloud/TagCloud';
 import ContactUs from '../contact/ContactUs';
 
+import classNames from 'classnames'; 
+
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        page: 1
+    };
+  }
 
   componentDidMount() {
-    this.props.loadOpenApis(0);
+    this.props.loadOpenApis(1);
+
 
   }
+  
 
   renderHero() {
     return (
@@ -44,39 +54,18 @@ class Home extends Component {
     );
   }
 
-  renderOpenAPI(api) {
-    /*
-    // render each api
-    return (
-        <div className="bg-light col-md-6 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-          <div className="my-3 p-3">
-            <h2 className="display-5"><Link to= {"/show-api/" + api.id}>{api.name}</Link></h2> 
-            <p className="lead">{api.created_by}</p>
-          </div>
-          <div className="bg-dark shadow-sm mx-auto api-desc">
-            <div className="pt-5">
-            <img src={api.avatar_url}></img>
-            <p></p>
-            {api.description}
-            </div>
-          
-          </div>
-        </div>
-    )
-    */
-
-    // api is just a number. replace with the right values
+  renderOpenAPI(api, rapi) {
 
     return (
       <div className="col-md-12">
         <div className="api-entry  d-md-flex">
-          <a href="single.html" className="img img-2" style={{backgroundImage: `url(${api})`}}></a>
+          <a href="single.html" className="img img-2" style={{backgroundImage: `url(${api.avatar_url})`}}></a>
           <div className="text text-2 pl-md-4">
-            <h3 className="mb-2"><a href="single.html">Forge</a></h3>
+            <h3 className="mb-2"><a href="single.html">{api.name}</a></h3>
 
             <div className="author d-flex align-items-center">
               <div className="info">
-                <span>Published by ABC Company</span>
+                <span>{api.publisher && api.publisher.name}</span>
               </div>
             </div>
 
@@ -84,11 +73,11 @@ class Home extends Component {
               <p className="meta">
                 <span><i className="icon-calendar mr-2"></i>June 28, 2019</span>
                 <span><a href="single.html"><i
-                  className="icon-folder-o mr-2"></i>Financial</a></span>
-                <span><i className="icon-comment2 mr-2"></i>5 Comment</span>
+                  className="icon-folder-o mr-2"></i>{api.category.categoryName}</a></span>
+                <span><i className="icon-comment2 mr-2"></i>{api.num_comments} comment(s)</span>
               </p>
             </div>
-            <p className="mb-4">Stock and Forex Data and Realtime Quotes</p>
+            <p className="mb-4">{api.description}</p>
             <p><a href="spec.html" className="btn-custom">View Spec <span
               className="ion-ios-arrow-forward"></span></a></p>
           </div>
@@ -110,29 +99,45 @@ class Home extends Component {
     )
     */
 
-    var apis = [defaultLogo, defaultLogo2, defaultLogo3, defaultLogo4, defaultLogo5];
+    //var apis = [defaultLogo, defaultLogo2, defaultLogo3, defaultLogo4, defaultLogo5];
 
     return (
       <div className="row pt-md-4">
-        {apis.map(api => this.renderOpenAPI(api))}
+        {this.props.apis.map(api => this.renderOpenAPI(api))}
       </div>
     )
 
   }
 
+  handlePageClick(data)  {
+    let selected = data;
+    this.setState({page: selected});
+    this.props.loadOpenApis(selected);
+  }
+
+  create() {
+    let table = []
+    table.push(<li><a href="#" onClick = {e=>this.handlePageClick(1)} >&lt;</a></li>)
+  //  table.push(<li className="active"><span>{1}</span></li>)
+    // Outer loop to create parent
+    
+    for (let i = 0; i < Math.ceil(this.props.count/5); i++) {
+      //Inner loop to create children
+      //Create the parent and add the children
+    table.push(<li className={classNames({"active": this.state.page==(i+1)})} ><a href="#" onClick = {e=>this.handlePageClick(i+1)}>{i+1}</a></li>)
+    }
+    table.push(<li onClick = {e=>this.handlePageClick(Math.ceil(this.props.count/5))}><a href="#">&gt;</a></li>)
+    return table
+  }
+  
   renderPaginator() {
+    ///{this.createP()}
     return (
       <div className="row">
         <div className="col text-right">
           <div className="paginator">
             <ul>
-              <li><a href="#">&lt;</a></li>
-              <li className="active"><span>1</span></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li><a href="#">&gt;</a></li>
+            {this.create()}
             </ul>
           </div>
         </div>
@@ -168,6 +173,7 @@ class Home extends Component {
 const mapStateToProps = ({ openapis }) => ({
   count: openapis.total,
   apis: openapis.apis,
+  page: openapis.page
 
 })
 
@@ -179,6 +185,11 @@ const mapDispatchToProps = dispatch =>
     },
     dispatch
   )
+
+
+
+
+
 
 export default connect(
   mapStateToProps,

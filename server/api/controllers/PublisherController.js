@@ -75,8 +75,18 @@ const PublisherController = () => {
 
   const getAll = async (req, res) => {
     try {
-      const pub = await Publisher.findAll();
-      return res.status(200).json({ publishers: pub, total: pub.length});
+      const result = await Publisher.findAndCountAll(
+        {
+        attributes: ['id', 'name', 'description'], 
+          offset: offset,
+          limit: 10, 
+          include: [{
+            as: 'category',
+            model: Category,
+          }]
+    });
+
+      return res.status(200).json({ publishers: result.rows, total: result.count});
     } catch (err) {
       console.log(err);
       return res.status(500).json({ msg: 'Internal server error' });

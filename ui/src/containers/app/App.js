@@ -40,15 +40,10 @@ class App extends Component {
     this.props.goHome();
   }
 }
-  
-
-
-
 
 const mapStateToProps = ({ auth }) => ({
   user: auth.user
 })
-
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators(

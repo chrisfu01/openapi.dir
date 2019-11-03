@@ -6,6 +6,7 @@ OPENAPI_REQUEST_FAILURE
 
 const initialState = {
   total: 0,
+
   apis: [],
   isLoading: false,
   error: null
@@ -16,6 +17,7 @@ export default (state = initialState, action) => {
     case OPENAPI_REQUESTED:
       return {
         ...state,
+
         apis: [],
         isLoading: true,
         error: null,
