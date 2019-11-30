@@ -80,7 +80,7 @@ const CategoryController = () => {
   const getAll = async (req, res) => {
     try {
       sequelize.query(
-        "SELECT a.name, count(*) as counter from openapi_categories as a join openapi_specs as b on a.id = b.category_id group by a.id order by a.name"
+        "SELECT a.id, a.name, count(*) as counter from openapi_categories as a left join openapi_specs as b on a.id = b.category_id group by a.id order by a.name"
       , { type: sequelize.QueryTypes.SELECT}).
       then(categories => {
         return res.status(200).json(categories);

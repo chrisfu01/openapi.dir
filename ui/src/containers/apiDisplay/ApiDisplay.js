@@ -45,7 +45,7 @@ class ApiDisplay extends Component {
     }
 
     render() {
-        return (<RedocStandalone specUrl={"http://localhost:3000/public/specs/" + this.props.match.params.id} />
+        return (<RedocStandalone specUrl={"http://localhost:3000/public/yaml/" + this.props.match.params.id} />
         )
     }
 }

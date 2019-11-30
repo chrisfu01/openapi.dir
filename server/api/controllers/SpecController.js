@@ -13,6 +13,9 @@ const cors = require('cors');
 app.use(cors());
 const SwaggerParser = require('swagger-parser');
 
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+
 
 
 /*
@@ -99,15 +102,57 @@ const SpecController = () => {
 
   const getAll = async (req, res) => {
     try {
+      let where = {}
+      /*
+      if (req.category_id) {
+        where['category_id'] = req.category_id
+      }
+      */
+
+      if (req.query.search && req.query.search.length > 0) {
+        where['name'] =  {
+          [Op.like]: '%' + req.query.search + '%'
+          //[Op.like]: '%' + '%'
+        }
+
+      } 
+
+      if (req.query.category_id) {
+          where['category_id'] = req.query.category_id
+          console.log(where)
+      }
+      
+
+      /*
+      where = {}
+
+      if (req.category_id) {
+        where.category_id = req.category_id
+      }
+
+      */
+      
       const apis = await Spec.findAndCountAll({
         attributes:[
-          'id', 'name', 'description', 'spec', 'avatar_url', 'num_comments'
+          'id', 'name', 'description', 'spec', 'avatar_url', 'num_comments', 'category_id', 'created_at'
         ],
         limit: 5,
-        offset: 5*(req.params.page-1),
+        offset: 5*(req.query.page-1),
         order: [
           // Will escape title and validate DESC against a list of valid direction parameters
           ['id', 'ASC']],
+
+        /*
+        where: {
+            category_id: req.category_id,
+          },
+          */
+          
+        
+        
+        where: where,
+        
+        
         
         include: [{
           as: 'category', 

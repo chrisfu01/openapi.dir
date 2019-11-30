@@ -15,7 +15,7 @@ import defaultLogo4 from '../../assets/images/default_logo4.jpg';
 import defaultLogo5 from '../../assets/images/default_logo5.jpg';
 
 
-import SearchBox from '../../components/search/SearchBox'
+import SearchBox from '../search-box/SearchBox'
 import CategoryList from '../category-list/CategoryList'
 import Spotlights from '../spotlights/Spotlights';
 import TagCloud from '../tag-cloud/TagCloud';
@@ -27,14 +27,15 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        page: 1
+        page: 1,
+        search: null,
+        category_id: null
     };
+
   }
 
   componentDidMount() {
-    this.props.loadOpenApis(1);
-
-
+    this.props.loadOpenApis(this.state);
   }
   
 
@@ -59,9 +60,10 @@ class Home extends Component {
     return (
       <div className="col-md-12">
         <div className="api-entry  d-md-flex">
-          <a href="single.html" className="img img-2" style={{backgroundImage: `url(${api.avatar_url})`}}></a>
+          <Link to={`/show-api/${api.id}`} className="img img-2" style={{backgroundImage: `url(${api.avatar_url})`}}></Link>
           <div className="text text-2 pl-md-4">
-            <h3 className="mb-2"><a href="single.html">{api.name}</a></h3>
+            <h3 className="mb-2"> <Link to={`/show-api/${api.id}`}>{api.name}</Link>
+            </h3>
 
             <div className="author d-flex align-items-center">
               <div className="info">
@@ -71,9 +73,9 @@ class Home extends Component {
 
             <div className="meta-wrap">
               <p className="meta">
-                <span><i className="icon-calendar mr-2"></i>June 28, 2019</span>
-                <span><a href="single.html"><i
-                  className="icon-folder-o mr-2"></i>{api.category.categoryName}</a></span>
+                <span><i className="icon-calendar mr-2"></i>{this.formatDate(api.created_at)}</span>
+                <span><a onClick = {e=>this.doFilter(api.category_id)}><i
+                  className="icon-folder-o mr-2" ></i>{api.category.categoryName}</a></span>
                 <span><i className="icon-comment2 mr-2"></i>{api.num_comments} comment(s)</span>
               </p>
             </div>
@@ -84,6 +86,12 @@ class Home extends Component {
         </div>
       </div>
     )
+  }
+
+  formatDate(d) {
+    const d8 = new Date(d);
+    return ((d8.getMonth()+ 1)+ "/" + d8.getDate() + "/" + d8.getFullYear());
+
   }
 
   renderOpenAPIs() {
@@ -112,7 +120,18 @@ class Home extends Component {
   handlePageClick(data)  {
     let selected = data;
     this.setState({page: selected});
-    this.props.loadOpenApis(selected);
+    this.props.loadOpenApis(this.state);
+  }
+
+  
+  doFilter(data)  {
+    this.setState({page: 1, category_id: data}, function(){this.props.loadOpenApis(this.state);});
+    
+  }
+  
+
+  doSearch(data) {
+    this.setState({page: 1, search: data}, function(){ this.props.loadOpenApis(this.state);});
   }
 
   create() {
@@ -155,8 +174,8 @@ class Home extends Component {
               {this.renderPaginator()}
             </div>
             <div className="col-xl-4 sidebar  bg-light pt-5">
-              <SearchBox />
-              <CategoryList />
+              <SearchBox doSearch={this.doSearch.bind(this)} /> 
+              <CategoryList doFilter = {this.doFilter.bind(this)} />
               <Spotlights />
               <TagCloud />
               <ContactUs />
@@ -170,6 +189,8 @@ class Home extends Component {
 }
 
 
+
+
 const mapStateToProps = ({ openapis }) => ({
   count: openapis.total,
   apis: openapis.apis,
@@ -180,7 +201,7 @@ const mapStateToProps = ({ openapis }) => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      loadOpenApis: (page) => loadOpenApis(page),
+      loadOpenApis: (params) => loadOpenApis(params),
       changePage: () => push('/about-us')
     },
     dispatch

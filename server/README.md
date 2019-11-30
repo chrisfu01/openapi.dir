@@ -22,6 +22,9 @@
 - Populate DB with seed data
 `npx sequelize-cli db:seed:all`
 
+- Seed a particular file
+`npx sequelize-cli db:seed --seed 20191117003257-categories`
+
 - Undo seed data
 If you wish to undo most recent seed
 `npx sequelize-cli db:seed:undo`

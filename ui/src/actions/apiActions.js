@@ -128,11 +128,13 @@ export const UploadRequested = (data) => {
 };
 
 
-export const loadOpenApis = (page) => {
+export const loadOpenApis = (params) => {
     return (dispatch) => {
         dispatch(openapiRequested()); 
 
-        return axios.get(apiUrl + page)
+        return axios.get(apiUrl , {
+            params 
+          })
             .then(response => {
                 dispatch(openapiRequestSuccess(response.data))
             })

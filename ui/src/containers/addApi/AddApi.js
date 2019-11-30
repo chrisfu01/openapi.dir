@@ -9,6 +9,8 @@ import Button from 'react-bootstrap/Button'
 import FormControl from 'react-bootstrap/FormControl'
 import FormCheck from 'react-bootstrap/FormCheck'
 import { uploadAPI } from '../../actions/apiActions'
+import { loadCats } from '../../actions/apiActions'
+
 
 class AddApi extends Component {
 
@@ -32,6 +34,8 @@ class AddApi extends Component {
     else {
       // load all the categories
       // this.props.loadCategories();
+      this.props.loadCats();
+
     }
     
   }
@@ -42,6 +46,10 @@ class AddApi extends Component {
       this.props.changePage();
     }
   }
+
+  renderCategories(category) {
+    return (<option value={category.id}>{category.name}</option>)
+  } 
 
   render() {
     return (
@@ -59,8 +67,8 @@ class AddApi extends Component {
                 <div className="form-group">
                   <select className="form-control" onChange={e=>this.handleCategoryChange(e)}>
                     <option>Select a category</option>
-                    <option value="1">Technology</option>
-                    <option  value="2">e-Commerce</option>
+                    {this.props.categories.map(category => this.renderCategories(category))}
+
                   </select>
                 </div>
 
@@ -127,11 +135,12 @@ class AddApi extends Component {
 
 }
 
-const mapStateToProps = ({ publishers, upload, auth }) => ({
+const mapStateToProps = ({ publishers, upload, auth, categories }) => ({
   count: publishers.total,
   uploading: upload.isUploading,
   completed: upload.isComplete, 
   user: auth.user,
+  categories: categories.categories
 })
 
 const mapDispatchToProps = dispatch =>
@@ -139,7 +148,9 @@ const mapDispatchToProps = dispatch =>
     {
       uploadAPI: (apiInfo) => uploadAPI(apiInfo),
       changePage: () => push('/'),
-      gotoLogin: () =>push('/login')
+      gotoLogin: () =>push('/login'),
+      loadCats: () => loadCats(),
+
     },
     dispatch
   )

@@ -22,8 +22,9 @@ const publicRoutes = {
   'POST /login': 'UserController.login',
   'POST /validate': 'UserController.validate',
   'GET /users': 'UserController.getAll',
-  'GET /specs/:page':  'SpecController.getAll',
-//  'GET /specs/:id':  'SpecController.getOne',
+  'GET /specs/':  'SpecController.getAll',
+  'GET /yaml/:id':  'SpecController.getOne',
+
 
 //  npm install redoc --sav
 
