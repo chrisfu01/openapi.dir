@@ -1,5 +1,5 @@
 
-![Screenshot](https://raw.githubusercontent.com/chris/projectname/branch/banner.png)
+![Screenshot](https://github.com/chrisfu01/openapi.dir/raw/master/banner.png)
 
 What is API.dir?
 --------------------------
