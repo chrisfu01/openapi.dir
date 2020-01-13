@@ -1,58 +1,27 @@
 const Sequelize = require('sequelize');
 const path = require('path');
 
-const connection = require('./connection');
+//const connection = require('./connection');
 require('dotenv').config()
 
+console.log(process.env.DB_NAME);
 
-let database;
+let database = new Sequelize (
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASS,
+  {
+    host: process.env.DB_HOST,
+    dialect: 'mysql',
+    pool: {
+      max: 5,
+      min: 0,
+      idle: 10000,
+    },
+  }
 
-switch (process.env.NODE_ENV) {
-  case 'production':
-    database = new Sequelize(
-      connection.production.database,
-      connection.production.username,
-      connection.production.password, {
-        host: connection.production.host,
-        dialect: connection.production.dialect,
-        pool: {
-          max: 5,
-          min: 0,
-          idle: 10000,
-        },
-      },
-    );
-    break;
-  case 'testing':
-    database = new Sequelize(
-      connection.testing.database,
-      connection.testing.username,
-      connection.testing.password, {
-        host: connection.testing.host,
-        dialect: connection.testing.dialect,
-        pool: {
-          max: 5,
-          min: 0,
-          idle: 10000,
-        },
-      },
-    );
-    break;
-  default:
-    database = new Sequelize(
-      connection.development.database,
-      connection.development.username,
-      connection.development.password, {
-        host: connection.development.host,
-        dialect: connection.development.dialect,
-        pool: {
-          max: 5,
-          min: 0,
-          idle: 10000,
-        },
-        storage: path.join(process.cwd(), 'db', 'database.sqlite'),
-      },
-    );
-}
+);
+
+
 
 module.exports = database;
