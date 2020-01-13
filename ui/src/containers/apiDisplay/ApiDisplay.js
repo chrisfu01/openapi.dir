@@ -11,12 +11,11 @@ import {
 import {
     connect
 } from 'react-redux'
+
 import {
-    loadPubs
-} from '../../actions/apiActions'
-import {
-    loadOpenApis
-} from '../../actions/apiActions'
+    loadOpenApiSingle
+ } from '../../actions/apiActions';
+
 import {
     RedocStandalone
 } from 'redoc';
@@ -27,7 +26,17 @@ import {
 
 class ApiDisplay extends Component {
     componentDidMount() {
-        //this.props.loadOpenApis(0); 
+        this.props.loadOpenApiSingle(this.props.match.params.id); 
+        /*
+        this.setState({url: b});
+
+        if (b) {
+            this.setState({url: b});
+            
+        }
+        */
+
+        //this.render();
         //this.props.loadPubs(0);
     }
 
@@ -35,19 +44,56 @@ class ApiDisplay extends Component {
         super(props);
         this.state = {
             pubid: '',
-            selectedFile: null,
+            url: "https://api.apis.guru/v2/specs/6-dot-authentiqio.appspot.com/6/swagger.json",
             loaded: 0,
         };
-
-        console.log(this.props.match.params.id);
-
+        //console.log("http://localhost:3000/public/yaml/" + this.props.match.params.id);
         // this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+
+
     render() {
-        return (<RedocStandalone specUrl={"http://localhost:3000/public/yaml/" + this.props.match.params.id} />
-        )
+        //{this.props.match.params.id}
+        if (this.props.returnedId) {
+            let url = this.props.url;
+            if (!url) {
+                url = "http://localhost:3000/public/yaml/" + this.props.match.params.id
+            }
+            return (
+                <RedocStandalone specUrl = {url} />   
+            )
+        }
+        else {
+            return (
+                <div>
+                    Loading ...
+                </div>
+            )
+        }
+
+        
     }
 }
 
-export default ApiDisplay;
+
+const mapStateToProps = ({ openapisingle }) => ({
+    returnedId: openapisingle.api ? openapisingle.api.id : null,
+    url: openapisingle.api ? openapisingle.api.url : null,
+  })
+  
+const mapDispatchToProps = dispatch =>
+    bindActionCreators(
+      {
+        loadOpenApiSingle: (id) => loadOpenApiSingle(id),
+        //changePage: () => push('/about-us')
+      },
+      dispatch
+)
+    
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ApiDisplay)
+  
+

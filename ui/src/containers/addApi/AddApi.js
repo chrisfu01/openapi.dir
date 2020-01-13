@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button'
 import FormControl from 'react-bootstrap/FormControl'
 import FormCheck from 'react-bootstrap/FormCheck'
 import { uploadAPI } from '../../actions/apiActions'
+import { urlify } from '../../actions/apiActions'
 import { loadCats } from '../../actions/apiActions'
 
 
@@ -19,7 +20,7 @@ class AddApi extends Component {
     this.state = {
       categoryId: null,
       selectedFile: null,
-      apiName: null,
+      file: null,
       loaded: 0,
       filename: null,
     };
@@ -73,7 +74,7 @@ class AddApi extends Component {
                 </div>
 
                 <div className="form-group">
-                  <input type="text" value={this.state.apiName} className="form-control" placeholder="API Name" 
+                  <input type="text" value={this.state.file} className="form-control" placeholder="API URL" 
                     onChange={e=>this.handleApiNameChange(e)} />
                 </div>
 
@@ -99,16 +100,21 @@ class AddApi extends Component {
   }
 
   handleSubmit() {
-      const data = new FormData();
-      data.append("file", this.state.selectedFile);
-      data.append("categoryId", this.state.categoryId);
-      if (this.state.apiName) {
-        data.append("apiName", this.state.apiName);
+      if (this.state.file) {
+        let data = {
+          file: this.state.file,
+          categoryId: this.state.categoryId
+        };
+        this.props.urlify(data);
+      } else if (this.state.selectedFile) {
+        const data = new FormData();
+        //data.append("file", this.state.selectedFile);
+        data.append("categoryId", this.state.categoryId);
+        data.append("file", this.state.selectedFile);
+        this.props.uploadAPI(data);
       }
       
-      console.log(data);
 
-      this.props.uploadAPI(data);
   }
 
   handleChange(event) {
@@ -120,7 +126,7 @@ class AddApi extends Component {
   }
 
   handleApiNameChange(event) {
-    this.setState({apiName: event.target.value});        
+    this.setState({file: event.target.value});        
   }
 
   onChangeHandler=event=>{
@@ -135,10 +141,12 @@ class AddApi extends Component {
 
 }
 
-const mapStateToProps = ({ publishers, upload, auth, categories }) => ({
+const mapStateToProps = ({ publishers, upload, urlify, auth, categories }) => ({
   count: publishers.total,
   uploading: upload.isUploading,
   completed: upload.isComplete, 
+  urluploading: urlify.isUploading,
+  urlcompleted: urlify.isComplete, 
   user: auth.user,
   categories: categories.categories
 })
@@ -150,6 +158,7 @@ const mapDispatchToProps = dispatch =>
       changePage: () => push('/'),
       gotoLogin: () =>push('/login'),
       loadCats: () => loadCats(),
+      urlify: (apiInfo) => urlify(apiInfo),
 
     },
     dispatch

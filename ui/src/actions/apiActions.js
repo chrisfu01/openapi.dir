@@ -3,12 +3,15 @@ import axios from 'axios';
 const BASE = 'http://' + window.location.hostname + ':3000';
 
 const apiUrl = BASE + '/public/specs/';
-const apiUrlSingle = BASE + '/public/specs/';
+const apiUrlSingle = BASE + '/public/yaml/';
 
 const pubUrl = BASE + '/public/pub';
 const registerPostUrl = BASE + '/public/company_register';
 const loginUrl = BASE + '/public/login';
 const uploadUrl = BASE + '/public/upload';
+
+const uploadUrlify = BASE + '/public/urlify';
+
 
 const catUrl = BASE + '/public/category';
 
@@ -41,6 +44,10 @@ export const UPLOAD_REQUESTED = 'UPLOAD_REQUESTED'
 export const UPLOAD_REQUEST_SUCCESS = 'UPLOAD_REQUEST_SUCCESS'
 export const UPLOAD_REQUEST_FAILURE = 'UPLOAD_REQUEST_FAILURE'
 
+export const URL_REQUESTED = 'URL_REQUESTED'
+export const URL_REQUEST_SUCCESS = 'URL_REQUEST_SUCCESS'
+export const URL_REQUEST_FAILURE = 'URL_REQUEST_FAILURE'
+
 
 export const loginRequested = () => {
     return {
@@ -72,6 +79,20 @@ export const openapiRequestSuccess = (payload) => {
 export const openapiRequested = (data) => {
     return {
         type: OPENAPI_REQUESTED,
+    }
+};
+
+
+export const openapiSingleRequestSuccess = (payload) => {
+    return {
+      type: OPENAPI_SINGLE_REQUEST_SUCCESS,
+      payload
+    }
+};
+
+export const openapiSingleRequested = (data) => {
+    return {
+        type: OPENAPI_SINGLE_REQUESTED,
     }
 };
 
@@ -127,6 +148,20 @@ export const UploadRequested = (data) => {
     }
 };
 
+export const URLRequestSuccess = (payload) => {
+    return {
+      type: URL_REQUEST_SUCCESS,
+      payload
+    }
+};
+
+export const URLRequested = (data) => {
+    return {
+        type: URL_REQUESTED,
+    }
+};
+
+
 
 export const loadOpenApis = (params) => {
     return (dispatch) => {
@@ -146,11 +181,11 @@ export const loadOpenApis = (params) => {
 
 export const loadOpenApiSingle = (id) => {
     return (dispatch) => {
-        dispatch(openapiRequested()); 
+        dispatch(openapiSingleRequested()); 
 
         return axios.get(apiUrlSingle + id)
             .then(response => {
-                dispatch(openapiRequestSuccess(response.data))
+                dispatch(openapiSingleRequestSuccess(response.data))
             })
             .catch(error => {
                 throw (error);
@@ -208,6 +243,29 @@ export function uploadAPI(apiInfo) {
             });
     };
 }
+
+export function urlify(apiInfo) {
+    //alert(apiInfo.selectedFile[0]);
+    //alert(apiInfo.loaded);
+    return (dispatch) => {
+        dispatch(URLRequested()); 
+        console.log(apiInfo);
+
+        
+        return axios.post(uploadUrlify, apiInfo, {
+            headers: {
+                'Authorization': 'Bearer ' +  localStorage.getItem("auth-token")        
+                }
+             })
+            .then(response => {
+                dispatch(URLRequestSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}
+
 
 export function register(companyInfo) {
     return (dispatch) => {

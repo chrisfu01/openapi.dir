@@ -28,7 +28,7 @@ class Register extends Component {
     
   
     componentDidMount() {
-
+        console.log("log");
     }
 
     renderOld() {

@@ -1,6 +1,5 @@
 {
   "private": true,
-  "homepage": "https://openai.portal",
   "scripts": {
     "deploy": "now && now alias",
     "start": "PORT=3001 react-scripts start",
@@ -47,6 +46,7 @@
     "styled-components": "^4.3.2",
     "validator": "^11.1.0"
   },
+  "homepage": "http://localhost/openapi",
   "browserslist": [
     ">0.2%",
     "not dead",

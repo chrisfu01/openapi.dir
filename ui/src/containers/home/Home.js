@@ -7,7 +7,6 @@ import { loadOpenApis } from '../../actions/apiActions'
 import { Link } from 'react-router-dom'
 import Img from 'react-image'
 
-
 import defaultLogo from '../../assets/images/default_logo.jpg';
 import defaultLogo2 from '../../assets/images/default_logo2.jpg';
 import defaultLogo3 from '../../assets/images/default_logo3.jpg';
@@ -15,8 +14,8 @@ import defaultLogo4 from '../../assets/images/default_logo4.jpg';
 import defaultLogo5 from '../../assets/images/default_logo5.jpg';
 
 
-import SearchBox from '../search-box/SearchBox'
-import CategoryList from '../category-list/CategoryList'
+import SearchBox from '../search-box/SearchBox';
+import CategoryList from '../category-list/CategoryList';
 import Spotlights from '../spotlights/Spotlights';
 import TagCloud from '../tag-cloud/TagCloud';
 import ContactUs from '../contact/ContactUs';
@@ -118,9 +117,8 @@ class Home extends Component {
   }
 
   handlePageClick(data)  {
-    let selected = data;
-    this.setState({page: selected});
-    this.props.loadOpenApis(this.state);
+    this.setState({page: data}, function(){this.props.loadOpenApis(this.state);});
+    this.render();
   }
 
   
@@ -137,15 +135,21 @@ class Home extends Component {
   create() {
     let table = []
     table.push(<li><a href="#" onClick = {e=>this.handlePageClick(1)} >&lt;</a></li>)
-  //  table.push(<li className="active"><span>{1}</span></li>)
     // Outer loop to create parent
-    
-    for (let i = 0; i < Math.ceil(this.props.count/5); i++) {
-      //Inner loop to create children
-      //Create the parent and add the children
-    table.push(<li className={classNames({"active": this.state.page==(i+1)})} ><a href="#" onClick = {e=>this.handlePageClick(i+1)}>{i+1}</a></li>)
+    if (Math.ceil(this.props.count/10) <= 5 || this.state.page<5) {
+      for (let i = 0; i < 5; i++) {
+        table.push(<li className={classNames({"active": this.state.page==(i+1)})} ><a href={"#" + (i + 1)} onClick = {e=>this.handlePageClick(i+1)}>{i+1}</a></li>)
+      }
+    } else if (this.state.page <= Math.ceil(this.props.count/10) && this.state.page >= Math.ceil(this.props.count/10)-4) {
+      for (let i = Math.ceil(this.props.count/10)-5; i < Math.ceil(this.props.count/10); i++) {
+        table.push(<li className={classNames({"active": this.state.page==(i+1)})} ><a href={"#" + (i + 1)}  onClick = {e=>this.handlePageClick(i+1)}>{i+1}</a></li>)
+      }
+    } else {
+      for (let i = this.state.page-3; i < this.state.page+2; i++) {        
+        table.push(<li className={classNames({"active": this.state.page==(i+1)})} ><a href={"#" + (i + 1)}  onClick = {e=>this.handlePageClick(i+1)}>{i+1}</a></li>)
+      }
     }
-    table.push(<li onClick = {e=>this.handlePageClick(Math.ceil(this.props.count/5))}><a href="#">&gt;</a></li>)
+    table.push(<li onClick = {e=>this.handlePageClick(Math.ceil(this.props.count/10))}><a href="#">&gt;</a></li>)
     return table
   }
   

@@ -6,7 +6,7 @@ import {
     
     const initialState = {
 
-      apis: [],
+      api: null,
       isLoading: false,
       error: null
     }
@@ -16,7 +16,7 @@ import {
         case OPENAPI_SINGLE_REQUESTED:
           return {
             ...state,
-            apis: [],
+            api: null,
             isLoading: true,
             error: null,
           }
@@ -25,7 +25,7 @@ import {
           return {
             ...state,
 
-            apis: action.payload.apis,
+            api: action.payload,
             isLoading: false,
             error: null,
           }

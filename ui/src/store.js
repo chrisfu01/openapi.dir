@@ -4,7 +4,9 @@ import thunk from 'redux-thunk'
 import * as History from 'history'
 import rootReducer from './reducers'
 
-export const history = History.createBrowserHistory()
+export const history = History.createBrowserHistory({
+    basename: '/openapi/',
+  });
 
 const initialState = {}
 const enhancers = []
