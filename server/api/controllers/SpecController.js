@@ -59,7 +59,49 @@ const SpecController = () => {
       }
     });
 
+    
+    //return res.status(500).json({msg: 'error!'});
 
+  };
+
+  const urlify = async (req, res) => {
+    //console.log("received" + req.file);
+    console.log(req.body);
+    console.log(req.body.file);
+    console.log(req.body.categoryId);
+
+
+
+    SwaggerParser.validate(req.body.file, (err, api) => {
+      if (err) {
+        console.error(err);
+      }
+      else {
+        //console.log("API name: %s, Version: %s, BODY TITLE: %s", api.info.title, api.info.version, req.body.apiName);
+        //console.log("NM: " + (!req.body.apiName || req.body.apiName == null || req.body.apiName == '') ); 
+        try {
+          const data = Spec.create({
+            name: api.info.title,
+            description: api.info.description,
+            spec_url: req.body.file,
+            version: api.info.version,
+            //source_repository: api.info["x-origin"].url,
+            source_repository: (typeof(api.info["x-origin"])!= "undefined" && typeof(api.info["x-origin"].url)!= "undefined") ? api.info["x-origin"].url : null,
+            //avatar_url: api.info["x-logo"].url,
+            avatar_url: (typeof(api.info["x-logo"])!= "undefined" && typeof(api.info["x-logo"].url) != "undefined") ? api.info["x-logo"].url : null,
+            category_id: req.body.categoryId
+          });
+          const token = authService().issue({ id: data.id });
+          //console.log(data);
+    
+         return res.status(200).json({ msg: 'Success!' });
+        } catch (err) {
+          console.log(err);
+          return res.status(500).json({ msg: 'Internal server error' });
+        }
+        
+      }
+    });
 
     
     //return res.status(500).json({msg: 'error!'});
@@ -89,8 +131,11 @@ const SpecController = () => {
         }
         ,order: [['publisher_id', 'DESC']],
       });
-      res.set('Content-Type', 'application/json');
-      return res.send(api.spec);
+      //res.set('Content-Type', 'application/x-www-form-urlencoded');
+      // return res.send(api.spec_url);
+      return res.status(200).json({
+        id: api.id,
+        url: api.spec_url});
     } catch (err) {
       console.log(err);
       return res.status(500).json({ msg: 'Internal server error' });
@@ -134,10 +179,10 @@ const SpecController = () => {
       
       const apis = await Spec.findAndCountAll({
         attributes:[
-          'id', 'name', 'description', 'spec', 'avatar_url', 'num_comments', 'category_id', 'created_at'
+          'id', 'name', 'description', 'spec', 'avatar_url', 'num_comments', 'category_id', 'created_at', 'spec_url'
         ],
-        limit: 5,
-        offset: 5*(req.query.page-1),
+        limit: 10,
+        offset: 10*(req.query.page-1),
         order: [
           // Will escape title and validate DESC against a list of valid direction parameters
           ['id', 'ASC']],
@@ -151,8 +196,6 @@ const SpecController = () => {
         
         
         where: where,
-        
-        
         
         include: [{
           as: 'category', 
@@ -176,6 +219,7 @@ const SpecController = () => {
 
   return {
     register,
+    urlify,
     validate,
     getAll,
     getOne

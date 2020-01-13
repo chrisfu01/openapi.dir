@@ -31,6 +31,9 @@ const Spec = sequelize.define('Spec', {
   avatar_url: {
     type: Sequelize.STRING(255),
   },
+  spec_url: {
+    type: Sequelize.STRING(512),
+  },
   publisher_id: {
     type: Sequelize.INTEGER,
    

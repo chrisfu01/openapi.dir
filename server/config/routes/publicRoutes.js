@@ -34,6 +34,11 @@ const publicRoutes = {
          upload
     ],
   },
+
+  'POST /urlify': 'SpecController.urlify',
+  
+
+
   'GET /pub':  'PublisherController.getAll',
   'POST /company_register':  'PublisherController.register',
   'GET /category': 'CategoryController.getAll',

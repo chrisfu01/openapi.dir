@@ -15,6 +15,17 @@ const Category = sequelize.define('Category', {
     type: Sequelize.STRING(200),
     
   },
+  createdAt: {
+    allowNull: true,
+    field: 'created_at',
+    type: Sequelize.DATE
+  },
+
+  updatedAt: {
+    allowNull: true,
+    field: 'updated_at',
+    type: Sequelize.DATE
+  },
   
 }, {  tableName });
 
