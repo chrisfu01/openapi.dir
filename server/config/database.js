@@ -2,6 +2,8 @@ const Sequelize = require('sequelize');
 const path = require('path');
 
 const connection = require('./connection');
+require('dotenv').config()
+
 
 let database;
 
