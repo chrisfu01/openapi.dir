@@ -29,15 +29,10 @@ class AddApi extends Component {
   }
 
   componentDidMount() {
-    if (this.props.user == null) {
-      this.props.gotoLogin();
-    }
-    else {
-      // load all the categories
-      // this.props.loadCategories();
-      this.props.loadCats();
+    
+    this.props.loadCats();
 
-    }
+    
     
   }
 

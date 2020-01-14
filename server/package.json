@@ -1,15 +1,15 @@
 {
-  "name": "express-rest-api-boilerplate",
-  "version": "0.0.0",
-  "author": "Lukas Aichbauer <l.aichbauer@gmail.com>",
+  "name": "openapi-dir",
+  "version": "1.0.0",
+  "author": "Christian Fu <chrisfu01@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aichbauer/express-rest-api-boilerplate.git"
+    "url": "git+https://github.com/aichbauer/openapi.dir.git"
   },
-  "homepage": "https://github.com/aichbauer/express-rest-api-boilerplate#readme",
+  "homepage": "https://github.com/aichbauer/openapi.dir.git#readme",
   "bugs": {
-    "url": "https://github.com/aichbauer/express-rest-api-boilerplate/issues"
+    "url": "https://github.com/aichbauer/openapi.dir.git/issues"
   },
   "scripts": {
     "prestart": "npm run drop-sqlite-db || true",

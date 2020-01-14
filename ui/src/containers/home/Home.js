@@ -180,8 +180,7 @@ class Home extends Component {
             <div className="col-xl-4 sidebar  bg-light pt-5">
               <SearchBox doSearch={this.doSearch.bind(this)} /> 
               <CategoryList doFilter = {this.doFilter.bind(this)} />
-              <Spotlights />
-              <TagCloud />
+              
               <ContactUs />
             </div>
           </div>

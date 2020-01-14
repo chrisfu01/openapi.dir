@@ -159,7 +159,6 @@ const SpecController = () => {
           [Op.like]: '%' + req.query.search + '%'
           //[Op.like]: '%' + '%'
         }
-
       } 
 
       if (req.query.category_id) {
@@ -186,15 +185,7 @@ const SpecController = () => {
         order: [
           // Will escape title and validate DESC against a list of valid direction parameters
           ['id', 'ASC']],
-
-        /*
-        where: {
-            category_id: req.category_id,
-          },
-          */
-          
-        
-        
+   
         where: where,
         
         include: [{

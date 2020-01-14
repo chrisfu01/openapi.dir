@@ -23,11 +23,9 @@ class Aside extends Component {
                 <nav id="site-main-menu" role="navigation">
                     <ul>
                         <li className={classNames({"site-active": path=='/'})} ><Link to="/">API's</Link></li>
-                        <li className={classNames({"site-active": path=='/add-api'})}><Link to="/add-api">Publish My API</Link></li>
-                        <li className={classNames({"site-active": path=='/publishers'})}><Link to="/publishers">Publishers</Link></li>
+                        <li className={classNames({"site-active": path=='/add-api'})}><Link to="/add-api">Submit My API</Link></li>
                         {!this.props.user && <li className={classNames({"site-active": path=='/register'})}><Link to="/register">Register</Link></li>}
                         {!this.props.user && <li className={classNames({"site-active": path=='/login'})}><Link to="/login">Login</Link></li>}
-                        <li className={classNames({"site-active": path=='/tutorials'})}><Link to="/">Tutorials</Link></li>
 
                         {this.props.user && <li className={classNames("mt-4", {"site-active": path=='/logout'})}><a onClick={e=>this.props.logout(e)} href="#">Log out</a></li>}
                     
