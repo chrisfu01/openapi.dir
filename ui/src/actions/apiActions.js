@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE = 'http://' + window.location.hostname + ':3000';
+const BASE = '';
 
 const apiUrl = BASE + '/public/specs/';
 const apiUrlSingle = BASE + '/public/yaml/';

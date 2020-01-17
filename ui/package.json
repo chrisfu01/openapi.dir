@@ -9,6 +9,7 @@
     "eject": "react-scripts eject",
     "precommit": "pretty-quick --staged"
   },
+  "proxy": "http://localhost:3000",
   "devDependencies": {
     "prettier": "1.18.2",
     "react-scripts": "^3.1.1"
