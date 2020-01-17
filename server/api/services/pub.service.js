@@ -4,7 +4,7 @@ const Publisher = require('../models/Publisher');
 const PubsService = () => {
   const create = async (nm) => {
     try {
-    return await Publisher.findOrCreate({
+      return await Publisher.findOrCreate({
         where: {
           name: nm,
         },
@@ -13,15 +13,11 @@ const PubsService = () => {
           updated_by: 1,
         }
       });
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err);
     }
   }
 
-    
-  
- 
   return {
     create,
   };

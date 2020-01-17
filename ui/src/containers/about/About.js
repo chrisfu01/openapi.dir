@@ -13,7 +13,7 @@ const About = () => (
 />
 
     <h1>About Page</h1>
-    <p>Did you get here via Redux?</p>
+    <p>Coming Soon!</p>
   </div>
 )
 

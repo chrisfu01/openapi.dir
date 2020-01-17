@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { withRouter } from 'react-router-dom'
 import classNames from 'classnames'; 
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+
 class Aside extends Component {
     renderUser() {
         return (
@@ -23,11 +26,9 @@ class Aside extends Component {
                 <nav id="site-main-menu" role="navigation">
                     <ul>
                         <li className={classNames({"site-active": path=='/'})} ><Link to="/">API's</Link></li>
-                        <li className={classNames({"site-active": path=='/add-api'})}><Link to="/add-api">Publish My API</Link></li>
-                        <li className={classNames({"site-active": path=='/publishers'})}><Link to="/publishers">Publishers</Link></li>
+                        <li className={classNames({"site-active": path=='/add-api'})}><Link to="/add-api">Submit My API</Link></li>
                         {!this.props.user && <li className={classNames({"site-active": path=='/register'})}><Link to="/register">Register</Link></li>}
                         {!this.props.user && <li className={classNames({"site-active": path=='/login'})}><Link to="/login">Login</Link></li>}
-                        <li className={classNames({"site-active": path=='/tutorials'})}><Link to="/">Tutorials</Link></li>
 
                         {this.props.user && <li className={classNames("mt-4", {"site-active": path=='/logout'})}><a onClick={e=>this.props.logout(e)} href="#">Log out</a></li>}
                     
@@ -36,13 +37,8 @@ class Aside extends Component {
 
                 <div className="site-footer">
 				    <div className="mb-4">
-					<h3>Subscribe for newsletter</h3>
-					<form action="#" className="site-subscribe-form">
-						<div className="form-group d-flex">
-							<div className="icon"><span className="icon-paper-plane"></span></div>
-							<input type="text" className="form-control" placeholder="Enter Email Address" />
-						</div>
-					</form>
+					<h3><a href="https://github.com/chrisfu01/openapi.dir" target="_blank"><FontAwesomeIcon icon={['fab', 'github']} /> Fork</a></h3>
+                    <h3><a href="mailto:chrisfu01 @ gmail.com"><FontAwesomeIcon icon={'envelope'} /> Contact</a></h3>
 				    </div>
 				    <p className="pfooter">
 					Copyright &copy;

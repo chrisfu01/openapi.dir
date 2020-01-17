@@ -542,6 +542,8 @@ h1, h2, h3, h4, h5,
 		display: block;
 		height: 150px;
 		width: 150px;
+		background-color:#cdcdcd;
+		background-size: contain;
 		@include border-radius(50%);
 		@include media-breakpoint-down(sm){
 			margin: 0 auto;

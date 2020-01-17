@@ -1,15 +1,15 @@
 {
-  "name": "express-rest-api-boilerplate",
-  "version": "0.0.0",
-  "author": "Lukas Aichbauer <l.aichbauer@gmail.com>",
+  "name": "openapi-dir",
+  "version": "1.0.0",
+  "author": "Christian Fu <chrisfu01@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aichbauer/express-rest-api-boilerplate.git"
+    "url": "git+https://github.com/aichbauer/openapi.dir.git"
   },
-  "homepage": "https://github.com/aichbauer/express-rest-api-boilerplate#readme",
+  "homepage": "https://github.com/aichbauer/openapi.dir.git#readme",
   "bugs": {
-    "url": "https://github.com/aichbauer/express-rest-api-boilerplate/issues"
+    "url": "https://github.com/aichbauer/openapi.dir.git/issues"
   },
   "scripts": {
     "prestart": "npm run drop-sqlite-db || true",
@@ -44,12 +44,15 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-routes-mapper": "^1.0.2",
+    "fetch": "^1.1.0",
     "helmet": "^3.12.0",
     "jsonwebtoken": "^8.2.1",
     "multer": "^1.4.2",
     "mysql2": "^1.6.5",
+    "node-fetch": "^2.6.0",
     "pg": "^7.12.0",
     "pg-hstore": "^2.3.3",
+    "querystring": "^0.2.0",
     "sequelize": "6.0.0-beta.4",
     "sqlite3": "^4.0.0",
     "swagger-parser": "^8.0.0"

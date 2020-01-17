@@ -7,29 +7,29 @@ import { loadOpenApis } from '../../actions/apiActions'
 import { Link } from 'react-router-dom'
 import Img from 'react-image'
 
-import defaultLogo from '../../assets/images/default_logo.jpg';
-import defaultLogo2 from '../../assets/images/default_logo2.jpg';
-import defaultLogo3 from '../../assets/images/default_logo3.jpg';
-import defaultLogo4 from '../../assets/images/default_logo4.jpg';
-import defaultLogo5 from '../../assets/images/default_logo5.jpg';
-
 
 import SearchBox from '../search-box/SearchBox';
 import CategoryList from '../category-list/CategoryList';
-import Spotlights from '../spotlights/Spotlights';
-import TagCloud from '../tag-cloud/TagCloud';
+
 import ContactUs from '../contact/ContactUs';
 
 import classNames from 'classnames'; 
 
+import qs from 'qs';
+
 class Home extends Component {
   constructor(props) {
     super(props);
+    const query = qs.parse(
+                  props.location.search ? props.location.search.substring(1) : ''
+              );
     this.state = {
         page: 1,
         search: null,
-        category_id: null
+        category_id: query.categoryId
     };
+
+    //this.props.match.params.id
 
   }
 
@@ -38,20 +38,17 @@ class Home extends Component {
   }
   
 
-  renderHero() {
-    return (
-      <div className="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
-        <div className="col-md-5 p-lg-5 mx-auto my-5">
-          <h1 className="display-4 font-weight-normal">OpenAPI Portal</h1>
-          <p className="lead font-weight-normal">
-            The best ever portal
-      </p>
-          <a className="btn btn-outline-secondary" href="#">Coming soon</a>
-        </div>
-        <div className="product-device shadow-sm d-none d-md-block"></div>
-        <div className="product-device product-device-2 shadow-sm d-none d-md-block"></div>
-      </div>
+  componentWillReceiveProps(next) {
+    const query = qs.parse(
+      next.location.search ? next.location.search.substring(1) : ''
     );
+
+    if (this.state.category_id != query.categoryId) {
+      this.setState({
+        category_id: query.categoryId
+        }, function() {this.props.loadOpenApis(this.state);});
+    }
+
   }
 
   renderOpenAPI(api, rapi) {
@@ -59,7 +56,7 @@ class Home extends Component {
     return (
       <div className="col-md-12">
         <div className="api-entry  d-md-flex">
-          <Link to={`/show-api/${api.id}`} className="img img-2" style={{backgroundImage: `url(${api.avatar_url})`}}></Link>
+          <Link to={`/show-api/${api.id}`} className="img img-2" style={{backgroundImage: `url(${(api.avatar_url != null) ? api.avatar_url : "http://pngimages.net/sites/default/files/download-logo-png-image-16277.png"})`}}></Link>
           <div className="text text-2 pl-md-4">
             <h3 className="mb-2"> <Link to={`/show-api/${api.id}`}>{api.name}</Link>
             </h3>
@@ -79,8 +76,8 @@ class Home extends Component {
               </p>
             </div>
             <p className="mb-4">{api.description}</p>
-            <p><a href="spec.html" className="btn-custom">View Spec <span
-              className="ion-ios-arrow-forward"></span></a></p>
+            <p> <Link to={`/show-api/${api.id}`}>View Spec</Link> <span
+              className="ion-ios-arrow-forward"></span></p>
           </div>
         </div>
       </div>
@@ -94,19 +91,6 @@ class Home extends Component {
   }
 
   renderOpenAPIs() {
-    /*
-    // todo: load the apis, and iterate through
-    if (this.props.apis == null && this.props.api.length == 0) {
-      return null;
-    }
-    return (
-      <div className="row">
-        {this.props.apis.map(api=>this.renderOpenAPI(api))}
-      </div>
-    )
-    */
-
-    //var apis = [defaultLogo, defaultLogo2, defaultLogo3, defaultLogo4, defaultLogo5];
 
     return (
       <div className="row pt-md-4">
@@ -123,12 +107,12 @@ class Home extends Component {
 
   
   doFilter(data)  {
-    this.setState({page: 1, category_id: data}, function(){this.props.loadOpenApis(this.state);});
-    
+
   }
   
 
   doSearch(data) {
+    
     this.setState({page: 1, search: data}, function(){ this.props.loadOpenApis(this.state);});
   }
 
@@ -180,8 +164,7 @@ class Home extends Component {
             <div className="col-xl-4 sidebar  bg-light pt-5">
               <SearchBox doSearch={this.doSearch.bind(this)} /> 
               <CategoryList doFilter = {this.doFilter.bind(this)} />
-              <Spotlights />
-              <TagCloud />
+              
               <ContactUs />
             </div>
           </div>
