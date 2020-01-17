@@ -5,8 +5,8 @@ echo "deploy openapi.dir"
 cd ~/build/openapi.dir
 git pull
 cd ui
-#npm update
-#npm run build
+npm update
+npm run build
 cd build
 DIR="$(pwd)"
 cd ~/build/openapi.dir/server
