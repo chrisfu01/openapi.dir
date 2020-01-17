@@ -27,17 +27,7 @@ import {
 class ApiDisplay extends Component {
     componentDidMount() {
         this.props.loadOpenApiSingle(this.props.match.params.id); 
-        /*
-        this.setState({url: b});
-
-        if (b) {
-            this.setState({url: b});
-            
-        }
-        */
-
-        //this.render();
-        //this.props.loadPubs(0);
+     
     }
 
     constructor(props) {

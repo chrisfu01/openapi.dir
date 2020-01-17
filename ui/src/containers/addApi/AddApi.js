@@ -11,6 +11,8 @@ import FormCheck from 'react-bootstrap/FormCheck'
 import { uploadAPI } from '../../actions/apiActions'
 import { urlify } from '../../actions/apiActions'
 import { loadCats } from '../../actions/apiActions'
+import ReCAPTCHA from "react-google-recaptcha"
+
 
 
 class AddApi extends Component {
@@ -23,6 +25,7 @@ class AddApi extends Component {
       file: null,
       loaded: 0,
       filename: null,
+      captcha: null,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -81,6 +84,11 @@ class AddApi extends Component {
                   <input type="text" value={this.state.filename}  placeholder="API Spec File" 
                     className="form-control" readOnly />
                 </div>
+                <ReCAPTCHA
+                  sitekey="6Ldyds8UAAAAACKcJJlTUYWaEptZAoJYAy6_a-HD"
+                  onChange={this.onChange.bind(this)}
+                  
+                  />
 
                 <div className="form-group">
                   <input type="button" onClick={this.handleSubmit} value="Submit" className="btn btn-primary mt-4 py-3 px-5" />
@@ -89,16 +97,30 @@ class AddApi extends Component {
 
             </div>
           </div>
+          
         </div>
+
+
+
+        
       </section>
+
+      
     )
   }
+  onChange(value){
+    this.setState({captcha: value});
+  }
+
+
 
   handleSubmit() {
+
       if (this.state.file) {
         let data = {
           file: this.state.file,
-          categoryId: this.state.categoryId
+          categoryId: this.state.categoryId,
+          captcha: this.state.captcha
         };
         this.props.urlify(data);
       } else if (this.state.selectedFile) {
@@ -106,6 +128,7 @@ class AddApi extends Component {
         //data.append("file", this.state.selectedFile);
         data.append("categoryId", this.state.categoryId);
         data.append("file", this.state.selectedFile);
+        data.append("captcha", this.state.captcha);
         this.props.uploadAPI(data);
       }
       

@@ -25,42 +25,6 @@ var upload = multer({ storage: storage }).single("file");
 
 const CategoryController = () => {
 
-  /*
-  const register = async (req, res) => {
-    console.log("received" + req.file);
-    console.log(req.body.categoryId);
-
-    SwaggerParser.validate(req.file.path, (err, api) => {
-      if (err) {
-        console.error(err);
-      }
-      else {
-        console.log("API name: %s, Version: %s, BODY TITLE: %s", api.info.title, api.info.version, req.body.apiName);
-        console.log("NM: " + (!req.body.apiName || req.body.apiName == null || req.body.apiName == '') ); 
-        try {
-          const data = Spec.create({
-            name: (!req.body.apiName || req.body.apiName == null || req.body.apiName == '' || req.body.apiName == 'null') ? api.info.title : req.body.apiName,
-            description: api.info.description,
-            spec: SwaggerParser.YAML.stringify(api),
-            version: api.info.version,
-            source_repository: api.info["x-origin"].url,
-            avatar_url: api.info["x-logo"].url,
-            category_id: req.body.categoryId
-          });
-          const token = authService().issue({ id: data.id });
-          //console.log(data);
-    
-         return res.status(200).json({ msg: 'Success!' });
-        } catch (err) {
-          console.log(err);
-          return res.status(500).json({ msg: 'Internal server error' });
-        }
-        
-      }
-    });
-
-  };
-*/
 
 
   const validate = (req, res) => {

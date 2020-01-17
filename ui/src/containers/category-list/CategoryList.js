@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { loadCats } from '../../actions/apiActions'
+import { Link } from 'react-router-dom'
+
 
 
 class CategoryList extends Component {
@@ -18,7 +20,8 @@ class CategoryList extends Component {
 
 
     renderCategories(category) {
-        return (<li><a href="#" onClick = {e=>this.handlePageClick(category.id)}>{category.name} <span>({category.counter})</span></a></li>)
+        //return (<li><a href="#" onClick = {e=>this.handlePageClick(category.id)}>{category.name} <span>({category.counter})</span></a></li>)
+        return (<li><Link to={`/?categoryId=${category.id}`}>{category.name} <span>({category.counter})</span></Link></li>)
     }
 
     handlePageClick (id) {

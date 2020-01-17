@@ -16,48 +16,87 @@ const SwaggerParser = require('swagger-parser');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
+const { stringify } = require('querystring');
+const fetch = require('node-fetch');
 
 
-/*
-const multer = require('multer')
-
-var storage = multer.memoryStorage()
-var upload = multer({ storage: storage }).single("file");
-*/
 
 const SpecController = () => {
   const register = async (req, res) => {
-    console.log("received" + req.file);
-    console.log(req.body.categoryId);
 
-    SwaggerParser.validate(req.file.path, (err, api) => {
-      if (err) {
-        console.error(err);
+    try {
+      console.log("received" + req.file);
+      console.log(req.body.categoryId);
+
+      if (!req.body.captcha) {
+        return res.json({
+          success: false,
+          msg: 'Please select captcha'
+        });
       }
-      else {
-        console.log("API name: %s, Version: %s, BODY TITLE: %s", api.info.title, api.info.version, req.body.apiName);
-        console.log("NM: " + (!req.body.apiName || req.body.apiName == null || req.body.apiName == '') ); 
-        try {
-          const data = Spec.create({
-            name: (!req.body.apiName || req.body.apiName == null || req.body.apiName == '' || req.body.apiName == 'null') ? api.info.title : req.body.apiName,
-            description: api.info.description,
-            spec: SwaggerParser.YAML.stringify(api),
-            version: api.info.version,
-            source_repository: api.info["x-origin"].url,
-            avatar_url: api.info["x-logo"].url,
-            category_id: req.body.categoryId
-          });
-          const token = authService().issue({ id: data.id });
-          //console.log(data);
-    
-         return res.status(200).json({ msg: 'Success!' });
-        } catch (err) {
-          console.log(err);
-          return res.status(500).json({ msg: 'Internal server error' });
+
+      const secretKey = '6Ldyds8UAAAAALrQUQBV--2gjazsrjIqe3uK25mG';
+
+      // Verify URL
+      const query = stringify({
+        secret: secretKey,
+        response: req.body.captcha,
+        remoteip: req.connection.remoteAddress
+      });
+      const verifyURL = `https://google.com/recaptcha/api/siteverify?${query}`;
+
+      // Make a request to verifyURL
+      const body = await fetch(verifyURL).then(res => res.json());
+
+      // If not successful
+      if (body.success !== undefined && !body.success) {
+        return res.json({
+          success: false,
+          msg: 'Failed captcha verification'
+        });
+      }
+
+
+
+      SwaggerParser.validate(req.file.path, (err, api) => {
+        if (err) {
+          console.error(err);
+        } else {
+          console.log("API name: %s, Version: %s, BODY TITLE: %s", api.info.title, api.info.version, req.body.apiName);
+          console.log("NM: " + (!req.body.apiName || req.body.apiName == null || req.body.apiName == ''));
+          try {
+            const data = Spec.create({
+              name: (!req.body.apiName || req.body.apiName == null || req.body.apiName == '' || req.body.apiName == 'null') ? api.info.title : req.body.apiName,
+              description: api.info.description,
+              spec: SwaggerParser.YAML.stringify(api),
+              version: api.info.version,
+              source_repository: api.info["x-origin"].url,
+              avatar_url: api.info["x-logo"].url,
+              category_id: req.body.categoryId
+            });
+            const token = authService().issue({
+              id: data.id
+            });
+            //console.log(data);
+
+            return res.status(200).json({
+              msg: 'Success!'
+            });
+          } catch (err) {
+            console.log(err);
+            return res.status(500).json({
+              msg: 'Internal server error'
+            });
+          }
+
         }
-        
-      }
-    });
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({
+        msg: err
+      });
+    }
 
     
     //return res.status(500).json({msg: 'error!'});
@@ -148,16 +187,17 @@ const SpecController = () => {
   const getAll = async (req, res) => {
     try {
       let where = {}
-      /*
-      if (req.category_id) {
-        where['category_id'] = req.category_id
-      }
-      */
+
 
       if (req.query.search && req.query.search.length > 0) {
-        where['name'] =  {
-          [Op.like]: '%' + req.query.search + '%'
-          //[Op.like]: '%' + '%'
+        where = {
+          [Op.or]: [{name: {
+                [Op.like]: '%' + req.query.search + '%'
+          }},{description: {
+              [Op.like]: '%' + req.query.search + '%'
+          } 
+          } 
+          ]
         }
       } 
 

@@ -10,7 +10,6 @@ class SearchBox extends Component {
     }
 
     componentDidMount() {
-        // Load all the categories (id, name, # of api's)
     }
 
     render() {

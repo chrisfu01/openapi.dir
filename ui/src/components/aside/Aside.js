@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { withRouter } from 'react-router-dom'
 import classNames from 'classnames'; 
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+
 class Aside extends Component {
     renderUser() {
         return (
@@ -34,13 +37,8 @@ class Aside extends Component {
 
                 <div className="site-footer">
 				    <div className="mb-4">
-					<h3>Subscribe for newsletter</h3>
-					<form action="#" className="site-subscribe-form">
-						<div className="form-group d-flex">
-							<div className="icon"><span className="icon-paper-plane"></span></div>
-							<input type="text" className="form-control" placeholder="Enter Email Address" />
-						</div>
-					</form>
+					<h3><a href="https://github.com/chrisfu01/openapi.dir" target="_blank"><FontAwesomeIcon icon={['fab', 'github']} /> Fork</a></h3>
+                    <h3><a href="mailto:chrisfu01 @ gmail.com"><FontAwesomeIcon icon={'envelope'} /> Contact</a></h3>
 				    </div>
 				    <p className="pfooter">
 					Copyright &copy;
