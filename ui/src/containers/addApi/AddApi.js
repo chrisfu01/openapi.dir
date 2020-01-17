@@ -56,7 +56,7 @@ class AddApi extends Component {
         <div className="container">
           <div className="row d-flex mb-5 contact-info">
             <div className="col-md-12 mb-4">
-              <h2 className="h3">Add My API</h2>
+              <h2 className="h3">Submit My API</h2>
             </div>
           </div>
 
@@ -76,14 +76,7 @@ class AddApi extends Component {
                     onChange={e=>this.handleApiNameChange(e)} />
                 </div>
 
-                <div className="form-group">
-                  <span className="btnlabel text-primary fileinput-button">
-                    Click here to select file to upload
-                    <input type="file" name="file" onChange={this.onChangeHandler}/>
-                  </span>
-                  <input type="text" value={this.state.filename}  placeholder="API Spec File" 
-                    className="form-control" readOnly />
-                </div>
+                
                 <ReCAPTCHA
                   sitekey="6Ldyds8UAAAAACKcJJlTUYWaEptZAoJYAy6_a-HD"
                   onChange={this.onChange.bind(this)}
