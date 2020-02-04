@@ -12,6 +12,8 @@ import ApiDisplay from '../apiDisplay/ApiDisplay';
 import Aside from '../../components/aside/Aside'; 
 import {logout} from '../../actions/apiActions';
 import { push } from 'connected-react-router'
+import { withRouter } from 'react-router-dom'
+
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -23,11 +25,19 @@ library.add(fas, far, fab);
 
 class App extends Component {
   render() {
+    console.log(this.props.location.pathname);
+        const path = this.props.location.pathname; 
+
+        let isshowapi = false;
+        if (path.includes("show-api")) {
+            isshowapi = true;
+        }
+    
     return (
       <div className="site-page">
         <Aside user={this.props.user} logout={this.logout.bind(this)} />
           
-        <div id="site-main">
+        <div id="site-main" className = {isshowapi ? "expand": ""}>
           <Route exact path="/" component={Home} />
           <Route exact path="/add-api" component={AddApi} />
           <Route exact path="/show-api/:id" component={ApiDisplay} />
@@ -62,7 +72,7 @@ const mapDispatchToProps = dispatch =>
         dispatch
     )
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(App)
+)(App))

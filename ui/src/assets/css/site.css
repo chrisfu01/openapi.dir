@@ -7826,6 +7826,16 @@ h1, h2, h3, h4, h5,
         right: 15px;
         transform: translateY(-50%);
         color: rgba(0, 0, 0, 0.5); }
+  #site-aside.shrink {
+    width: 80px;
+    white-space: nowrap;
+    overflow: hidden; }
+    #site-aside.shrink span {
+      display: none; }
+    #site-aside.shrink #site-logo span {
+      display: none; }
+    #site-aside.shrink .pfooter {
+      display: none; }
 
 #site-main {
   width: 100%;
@@ -7838,6 +7848,8 @@ h1, h2, h3, h4, h5,
   @media (min-width: 992px) {
     #site-main {
       width: 75%; } }
+  #site-main.expand {
+    width: calc(100% - 82px); }
 
 .site-nav-toggle {
   cursor: pointer;
