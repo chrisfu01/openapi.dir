@@ -2,6 +2,9 @@ import React, { Component,} from "react";
 import { Link } from "react-router-dom";
 import { withRouter } from 'react-router-dom'
 import classNames from 'classnames'; 
+import {
+    connect
+} from 'react-redux'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -18,7 +21,7 @@ class Aside extends Component {
         const path = this.props.location.pathname; 
 
         let isshowapi = false;
-        if (path.includes("show-api")) {
+        if (path.includes("show-api") || path.includes("edit")) {
             isshowapi = true;
         }
 
@@ -33,7 +36,7 @@ class Aside extends Component {
                     <ul>
                         <li className={classNames({"site-active": path=='/'})} ><Link to="/"><FontAwesomeIcon icon="code" /> <span>API's</span></Link></li>
                         <li className={classNames({"site-active": path=='/add-api'})}><Link to="/add-api"><FontAwesomeIcon icon="cloud-upload-alt" /> <span>Submit My API</span></Link></li>
-                        {isshowapi && <li className={classNames({"site-active": path=='/edit'})}><Link to="/edit"><FontAwesomeIcon icon="pencil-alt" /> <span>Edit</span></Link></li>}
+                        {isshowapi && this.props.id && <li className={classNames({"site-active": path=='/edit'})}><Link to={"/edit/" +this.props.id}><FontAwesomeIcon icon="pencil-alt" /> <span>Edit</span></Link></li>}
                         {!this.props.user && <li className={classNames({"site-active": path=='/register'})}><Link to="/register"><FontAwesomeIcon icon="user-plus" /> <span>Register</span></Link></li>}
                         {!this.props.user && <li className={classNames({"site-active": path=='/login'})}><FontAwesomeIcon icon="unlock" /> <Link to="/login"> <span>Login</span></Link></li>}
                         {this.props.user && <li className={classNames("mt-4", {"site-active": path=='/logout'})}><a onClick={e=>this.props.logout(e)} href="#"> <span>Log out</span></a></li>}                    
@@ -56,4 +59,12 @@ class Aside extends Component {
     }
 }
 
-export default withRouter(Aside); 
+const mapStateToProps = ({ openapisingle }) => ({
+    id: openapisingle.api ? openapisingle.api.id : null,
+  })
+  
+
+
+export default connect(
+    mapStateToProps)
+    (withRouter(Aside)); 

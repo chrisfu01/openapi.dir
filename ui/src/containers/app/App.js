@@ -7,6 +7,7 @@ import AddApi from '../addApi/AddApi';
 import Register from '../register/Register';
 import Login from '../login/Login';
 import MyProfile from '../myProfile/MyProfile';
+import Edit from "../edit/Edit";
 
 import ApiDisplay from '../apiDisplay/ApiDisplay';
 import Aside from '../../components/aside/Aside'; 
@@ -41,10 +42,13 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route exact path="/add-api" component={AddApi} />
           <Route exact path="/show-api/:id" component={ApiDisplay} />
+          <Route exact path="/edit/:id" component={Edit} />
 
           <Route exact path="/my-profile" component={MyProfile} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
+
+
         
         </div>
 
