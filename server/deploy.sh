@@ -22,4 +22,4 @@ sudo ln -s ${NOW} prod
 
 cd /var/www/apps/openapi
 sudo cp -rf ${SERVER_DIR}/* ./
-
+npm update
