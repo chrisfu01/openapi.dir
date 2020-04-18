@@ -1391,7 +1391,10 @@ textarea.form-control {
 
 #swagger-editor {
 	font-size: 1.3em;
-  }
+	.SplitPane {
+		margin-left: 60px;
+	}
+}
   
   .container {
 	height: 100%;

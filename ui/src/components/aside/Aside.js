@@ -7,9 +7,21 @@ import {
 } from 'react-redux'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Comments from '../../containers/comments/Comments'
+
+//import Modal from './Modal'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Form, FormGroup } from 'reactstrap';
 
 
 class Aside extends Component {
+
+    state = { show: false };
+
+    toggle = () => {
+        this.setState({ show: !this.state.show });
+    };
+
+
     renderUser() {
         return (
             <h5 className="text-primary mb-5">Hello, {this.props.user.firstname}</h5>
@@ -25,8 +37,26 @@ class Aside extends Component {
             isshowapi = true;
         }
 
+        /*
+        if (path.includes("edit")) {
+            return(
+               <aside></aside> 
+            );
+        }*/
         return (
             <aside id="site-aside" className={!isshowapi ? "js-fullheight" : "shrink js-fullheight"} >
+
+            {this.props.id &&
+            
+            <Modal size="lg" isOpen={this.state.show} toggle={this.toggle} unmountOnClose = {false}>
+            
+            <ModalHeader toggle={this.toggle}  charCode="X">Comments</ModalHeader>
+              <ModalBody>  
+                <Comments api_id={this.props.id}></Comments>
+              </ModalBody>
+            </Modal>
+            }
+            
                 <h1 id="site-logo" className="mb-4">
                     <Link  to="/" className="logo">A<span>PI.dir</span></Link>
                 </h1>
@@ -37,10 +67,12 @@ class Aside extends Component {
                         <li className={classNames({"site-active": path=='/'})} ><Link to="/"><FontAwesomeIcon icon="code" /> <span>API's</span></Link></li>
                         <li className={classNames({"site-active": path=='/add-api'})}><Link to="/add-api"><FontAwesomeIcon icon="cloud-upload-alt" /> <span>Submit My API</span></Link></li>
                         {isshowapi && this.props.id && <li className={classNames({"site-active": path=='/edit'})}><Link to={"/edit/" +this.props.id}><FontAwesomeIcon icon="pencil-alt" /> <span>Edit</span></Link></li>}
+                        {isshowapi && this.props.id && <li className={classNames({"site-active": path=='/#'})}><a class="btn" href="#" onClick = {this.toggle}><FontAwesomeIcon icon="comments" /><span>Comment</span></a></li>}
                         {!this.props.user && <li className={classNames({"site-active": path=='/register'})}><Link to="/register"><FontAwesomeIcon icon="user-plus" /> <span>Register</span></Link></li>}
                         {!this.props.user && <li className={classNames({"site-active": path=='/login'})}><FontAwesomeIcon icon="unlock" /> <Link to="/login"> <span>Login</span></Link></li>}
                         {this.props.user && <li className={classNames("mt-4", {"site-active": path=='/logout'})}><a onClick={e=>this.props.logout(e)} href="#"> <span>Log out</span></a></li>}                    
                     </ul>
+                
                 </nav>
 
                 <div className="site-footer">
@@ -53,6 +85,7 @@ class Aside extends Component {
 					<script>document.write(new Date().getFullYear());</script> Christian Fu & Contributors</p>
 			    </div>
 
+                
             </aside>    
            
         );

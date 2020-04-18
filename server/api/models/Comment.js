@@ -28,8 +28,20 @@ const Comment = sequelize.define('Comment', {
     type: Sequelize.STRING(32),
   },
 
-  created_user: {
+  created_by: {
     type: Sequelize.STRING(100),
+  },
+
+  createdAt: {
+    allowNull: true,
+    field: 'created_at',
+    type: Sequelize.DATE
+  },
+
+  updatedAt: {
+    allowNull: true,
+    field: 'updated_at',
+    type: Sequelize.DATE
   },
   
 }, { tableName });

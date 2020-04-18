@@ -7,6 +7,10 @@ const apiUrlSingle = BASE + '/public/yaml/';
 
 const pubUrl = BASE + '/public/pub';
 const registerPostUrl = BASE + '/public/company_register';
+
+const commentGetUrl = BASE + '/public/comment_get/';
+const commentPostUrl = BASE + '/public/comment_post';
+
 const loginUrl = BASE + '/public/login';
 const uploadUrl = BASE + '/public/upload';
 
@@ -47,6 +51,15 @@ export const UPLOAD_REQUEST_FAILURE = 'UPLOAD_REQUEST_FAILURE'
 export const URL_REQUESTED = 'URL_REQUESTED'
 export const URL_REQUEST_SUCCESS = 'URL_REQUEST_SUCCESS'
 export const URL_REQUEST_FAILURE = 'URL_REQUEST_FAILURE'
+
+export const COMMENTS_REQUESTED = 'COMMENTS_REQUESTED'
+export const COMMENTS_REQUEST_SUCCESS = 'COMMENTS_REQUEST_SUCCESS'
+export const COMMENTS_REQUEST_FAILURE = 'COMMENTS_REQUEST_FAILURE'
+
+export const COMMENT_POST_REQUESTED = 'COMMENT_POST_REQUESTED'
+export const COMMENT_POST_FAILURE = 'COMMENT_POST_FAILURE'
+export const COMMENT_POST_SUCCESS = 'COMMENT_POST_SUCCESS'
+
 
 
 export const loginRequested = () => {
@@ -161,6 +174,32 @@ export const URLRequested = (data) => {
     }
 };
 
+export const CommentsRequestSuccess = (payload) => {
+    return {
+      type: COMMENTS_REQUEST_SUCCESS,
+      payload
+    }
+};
+
+export const CommentsRequested = (data) => {
+    return {
+        type: COMMENTS_REQUESTED,
+    }
+};
+
+export const CommentsPostSuccess = (data) => {
+    return {
+        type: COMMENT_POST_SUCCESS,
+    }
+}
+
+export const CommentsPostRequested = (data) => {
+    return {
+        type: COMMENT_POST_REQUESTED,
+    }
+}
+
+
 
 
 export const loadOpenApis = (params) => {
@@ -214,6 +253,20 @@ export const loadCats = (page) => {
         return axios.get(catUrl)
             .then(response => {
                 dispatch(CategoryRequestSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+};
+
+export const loadComments = (id) => {
+    return (dispatch) => {
+        dispatch(CommentsRequested()); 
+
+        return axios.get(commentGetUrl + id)
+            .then(response => {
+                dispatch(CommentsRequestSuccess(response.data))
             })
             .catch(error => {
                 throw (error);
@@ -281,6 +334,26 @@ export function register(companyInfo) {
             });
     };
 }
+
+
+export function comment(id, comments) {
+    return (dispatch) => {
+        dispatch(CommentsPostRequested()); 
+        //console.log(companyInfo);
+
+        return axios.post(commentPostUrl, {
+            apiId: id, 
+            comments: comments
+        })
+            .then(response => {
+                dispatch(CommentsPostSuccess(response.data))
+            })
+            .catch(error => {
+                throw (error);
+            });
+    };
+}
+
 
 
 export function authenticate(email, password) {

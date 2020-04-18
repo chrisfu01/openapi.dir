@@ -155,7 +155,7 @@ class Home extends Component {
   render() {
     return (
       <section className="api-section api-no-pt api-no-pb">
-        <div className="container">
+        <div className="container-fluid">
           <div className="row d-flex">
             <div className="col-xl-8 py-5 px-md-5">
               {this.renderOpenAPIs()}

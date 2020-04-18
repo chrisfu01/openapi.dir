@@ -8675,6 +8675,8 @@ textarea.form-control {
     stroke-dashoffset: -136px; } }
 #swagger-editor {
   font-size: 1.3em; }
+  #swagger-editor .SplitPane {
+    margin-left: 60px; }
 
 .container {
   height: 100%;
