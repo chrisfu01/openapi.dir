@@ -27,7 +27,6 @@ const publicRoutes = {
 
 
 //  npm install redoc --sav
-
   'POST /upload': {
     path: 'SpecController.register',
     middlewares: [

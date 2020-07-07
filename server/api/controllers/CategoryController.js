@@ -25,8 +25,6 @@ var upload = multer({ storage: storage }).single("file");
 
 const CategoryController = () => {
 
-
-
   const validate = (req, res) => {
     const { token } = req.body;
     authService().verify(token, (err) => {

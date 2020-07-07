@@ -52,7 +52,6 @@ class Home extends Component {
   }
 
   renderOpenAPI(api, rapi) {
-
     return (
       <div className="col-md-12">
         <div className="api-entry  d-md-flex">
@@ -60,7 +59,6 @@ class Home extends Component {
           <div className="text text-2 pl-md-4">
             <h3 className="mb-2"> <Link to={`/show-api/${api.id}`}>{api.name}</Link>
             </h3>
-
             <div className="author d-flex align-items-center">
               <div className="info">
                 <span>{api.publisher && api.publisher.name}</span>

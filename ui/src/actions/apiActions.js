@@ -354,8 +354,6 @@ export function comment(id, comments) {
     };
 }
 
-
-
 export function authenticate(email, password) {
     return (dispatch) => {
         dispatch(loginRequested()); 

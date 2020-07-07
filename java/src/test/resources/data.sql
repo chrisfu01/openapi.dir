@@ -1,0 +1,2 @@
+INSERT INTO users ( email, firstname, lastname, password_hash, created_at, updated_at) VALUES ( 'demo@demo.com', 'John', 'Doe', '$2a$10$sFcDZ0hAFIxLyN7SQtwjMeA3KQeU94F7lFz150bYc2fUE9pv9Zv/K', NULL, NULL);
+INSERT INTO users ( email, firstname, lastname, password_hash, created_at, updated_at) VALUES ( 'demo@demo.com', 'John', 'Doe', '$2a$10$sFcDZ0hAFIxLyN7SQtwjMeA3KQeU94F7lFz150bYc2fUE9pv9Zv/K', NULL, NULL);
