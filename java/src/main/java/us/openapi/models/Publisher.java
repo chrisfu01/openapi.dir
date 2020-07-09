@@ -31,11 +31,11 @@ public class Publisher {
 	private int id;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(unique = true)
+    @JoinColumn(unique = true, name = "created_by")
 	private User createdBy;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(unique = true)
+    @JoinColumn(unique = true, name = "updated_by")
 	private User updatedBy;
 	
 	@Column(name = "created_at")

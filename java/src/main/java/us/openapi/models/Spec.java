@@ -48,14 +48,14 @@ public class Spec {
 	private Category category;
 	
 	@Column(name = "num_comments")
-	private int numComments;
+	private Integer numComments;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(unique = true)
+    @JoinColumn(unique = true, name = "updated_by")
 	private User updatedBy;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(unique = true)
+    @JoinColumn(unique = true, name = "created_by")
 	private User createdBy;
 	
 	@Column(name = "created_at")

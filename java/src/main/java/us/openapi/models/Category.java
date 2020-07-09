@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity()
-@Table(name = "categories")
+@Table(name = "openapi_categories")
 public class Category {
 	
 	@Id
