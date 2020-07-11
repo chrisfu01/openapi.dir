@@ -20,6 +20,8 @@ public class UserRepositoryTest {
 	@Autowired
     protected UserRepository userRepository;
 
+	
+	
     @Test
     public void shouldGetAllUsers() {
         List<User> users = userRepository.findAll();

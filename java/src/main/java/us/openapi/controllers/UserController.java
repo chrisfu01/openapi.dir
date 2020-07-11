@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import us.openapi.api.request.LoginRequest;
 import us.openapi.api.response.LoginResponse;
+import us.openapi.exceptions.InvalidCredentialException;
 import us.openapi.models.User;
 import us.openapi.repository.UserRepository;
 import us.openapi.service.UserService;
@@ -27,15 +28,19 @@ public class UserController {
 	 */
 	
 	/*
-	 'POST /user': 'UserController.register',
-	  'POST /register': 'UserController.register', // alias for POST /user
-	  
 	  'POST /login': 'UserController.login',
 	  'POST /validate': 'UserController.validate',
 	*/
 	
+	
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public void saveUser(User user) {
+		userService.saveUser(user);
+	}
+	
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public LoginResponse login(@RequestBody LoginRequest request) {
+	public LoginResponse login(@RequestBody LoginRequest request) throws InvalidCredentialException {
 		return userService.login(request);
 	}
 	
