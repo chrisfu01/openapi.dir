@@ -48,7 +48,7 @@
     "serve": "10.1.2",
     "styled-components": "^4.3.2",
     "swagger-editor": "^3.8.0",
-    "validator": "^11.1.0"
+    "validator": "^13.7.0"
   },
   "browserslist": [
     ">0.2%",
