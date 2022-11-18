@@ -12,7 +12,7 @@
   "proxy": "http://localhost:3000",
   "devDependencies": {
     "prettier": "1.18.2",
-    "react-scripts": "^3.1.1"
+    "react-scripts": "^5.0.1"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.22",
